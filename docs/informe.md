@@ -61,20 +61,33 @@ fuera del alcance de este informe y de los notebooks actuales, ver
 
 ## 3. Definición de KPIs
 
-KPIs ya medidos en esta etapa (comprensión y preparación de datos):
+Los KPIs se dividen en dos grupos: los que responden directamente la pregunta de negocio de
+la sección 1, y los que miden la calidad de los datos como condición necesaria para que los
+primeros sean confiables. Ambos grupos son medibles con el trabajo de esta etapa (EDA +
+preparación de datos); ninguno requiere un modelo entrenado, esa métrica (precisión predictiva
+del modelo final) es un KPI de la fase 4, fuera de alcance de esta entrega (ver sección 9).
+
+### KPIs de negocio
+
+Responden la pregunta de la sección 1: ¿qué tan bien explica la canción misma su popularidad,
+sin depender de la fama de quien la interpreta?
+
+| KPI | Meta | Resultado |
+|---|---|---|
+| Techo de señal explicable por el contenido de la canción (sin usar identidad de artista/álbum) | Cuantificar cuánto puede llegar a explicar, en el mejor caso, un modelo que solo use sonido y género | Atributos de audio solos: correlación máxima de apenas **-0,13** (instrumentalness). Género (codificado adecuadamente): **0,62**, muy superior a cualquier atributo de audio individual. Este 0,62 es la cota realista de lo que el contenido de la canción puede explicar sin recurrir a quién la interpreta — fija expectativas honestas para la futura fase de modelado, antes de invertir en entrenarlo. |
+| Features basadas en identidad de artista/álbum en el modelo final | 0 | Se midió que artista/álbum predicen popularidad mucho mejor que cualquier otro atributo (r≈0,71–0,72), pero se excluyen deliberadamente para no reforzar el sesgo de "el que ya es famoso, sigue siendo detectado como popular" (ver sección 7). |
+| % del catálogo cuya baja popularidad es un artefacto del contexto de publicación, no de la calidad de la canción | Cuantificar para no confundir "canción poco atractiva" con "dato mal catalogado" en decisiones de negocio | **54%** del pico de canciones con popularity = 0 (5.088 de 9.413) corresponde a duplicados de release — el mismo audio con otro release sin tracción — no a que la canción en sí no guste (ver sección 6.1). Sin este KPI, el negocio podría descartar por error contenido que en realidad sí tiene tracción, solo mal catalogado. |
+
+### KPIs de calidad de datos (soporte)
+
+Condición necesaria para que los KPIs de negocio de arriba sean confiables, no miden el
+problema de negocio en sí:
 
 | KPI | Meta | Resultado |
 |---|---|---|
 | Duplicados identificados y resueltos | 100% | 24.259 filas por track_id repetido (mismo audio, distinto género) + 9.284 filas de audio idéntico bajo track_id distinto, el 100% consolidado, sin filas duplicadas remanentes. |
 | Valores inválidos identificados y tratados | 100% | 129 time_signature = 0 / 124 tempo = 0 (sobre el dataset ya consolidado) marcados como faltantes para imputación; 0 valores inválidos sin tratar en el dataset preparado. |
 | Dataset final sin nulos tras la preparación | 0 nulos | X_train_prep / X_test_prep: 0 valores nulos, verificado. |
-| Señal explicativa por grupo de variables (línea base para justificar qué variables usar en el modelo) | — | Atributos de audio: correlación máxima con popularity de solo **-0.13** (instrumentalness). Género (con codificación adecuada): **0.62**, la variable individual más predictiva *entre las que se incluirán en el modelo* (artista/álbum correlacionan aún más fuerte, r≈0,71-0,72, pero se excluyen deliberadamente por las razones éticas de la sección 7). |
-
-KPI transversal, de negocio y de ética (ver sección 7):
-
-| KPI | Meta |
-|---|---|
-| Features basadas en identidad de artista/álbum en el modelo final | 0 — se midió que artista/álbum predicen popularidad mucho mejor que cualquier otro atributo (r≈0,71–0,72), pero se excluyen deliberadamente para no reforzar el sesgo de "el que ya es famoso, sigue siendo detectado como popular" (ver sección 7). |
 
 ## 4. Descripción de las fuentes de datos y herramientas colaborativas
 
