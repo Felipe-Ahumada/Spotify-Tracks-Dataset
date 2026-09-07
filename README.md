@@ -3,6 +3,8 @@
 Proyecto de la asignatura **MLY1101 Machine Learning (Duoc UC)** — Evaluación Parcial N°1, Caso de
 Estudio C: *Inteligencia musical y predicción de popularidad de canciones*.
 
+**Por:** Felipe Ahumada Silva y Francisca Carrasco Lozano
+
 ## ¿De qué trata?
 
 Analiza el [Spotify Tracks Dataset](data/Spotify_Tracks_Dataset.csv) (~114.000 canciones con
@@ -18,13 +20,13 @@ hallazgos del EDA, decisiones de preparación de datos y evaluación de sesgos/�
 ## Estructura del proyecto
 
 ```
-EV_1/
+Spotify-Tracks-Dataset/
 ├── README.md                          — este archivo
 ├── requirements.txt                   — dependencias de Python del proyecto
 ├── data/
 │   └── Spotify_Tracks_Dataset.csv     — dataset crudo (114.000 filas)
 ├── docs/
-│   ├── spotify_dataset.pdf            — documentación de cada columna (Spotify)
+│   ├── spotify_dataset.pdf            — documentación de cada columna del dataset
 │   └── informe.md                     — informe técnico del proyecto
 ├── notebooks/
 │   ├── analisis_exploratorio.ipynb    — Fase 2 CRISP-DM: comprensión de los datos (EDA)
@@ -35,7 +37,7 @@ EV_1/
 ## Cómo usarlo
 
 **Requisitos:** Python 3.12 y las librerías listadas en [`requirements.txt`](requirements.txt)
-(`pandas`, `numpy`, `matplotlib`, `seaborn`, `scikit-learn` y `jupyter`). Para verificar la
+(`pandas`, `numpy`, `matplotlib`, `scikit-learn` y `jupyter`). Para verificar la
 versión instalada de una librería puntual, ejecutar `import <lib>; print(<lib>.__version__)` como
 se indica en la primera celda de cada notebook.
 
@@ -64,4 +66,4 @@ crudo.
 
 Esta entrega cubre comprensión del negocio, comprensión de los datos y preparación de datos. El
 entrenamiento de modelos predictivos queda fuera de alcance, ver la sección 9 de
-[`informe.md`](informe.md) para el detalle de qué falta.
+[`informe.md`](docs/informe.md) para el detalle de qué falta.

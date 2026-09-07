@@ -2,13 +2,14 @@
 
 **Evaluación Parcial N°1 — MLY1101 Machine Learning — Duoc UC**
 **Caso de Estudio C:** Inteligencia musical y predicción de popularidad de canciones (Spotify Tracks)
+**Por:** Felipe Ahumada Silva y Francisca Carrasco Lozano
 
 Este es el informe técnico del proyecto, entregable formal de esta evaluación. Documenta el
 problema de negocio, los objetivos, los KPIs, las fuentes de datos, la metodología y el trabajo de
 comprensión y preparación de datos realizado hasta esta entrega. El desarrollo completo y
-ejecutable de cada paso está en los notebooks de la carpeta [`notebooks/`](notebooks/); este
+ejecutable de cada paso está en los notebooks de la carpeta [`notebooks/`](../notebooks/); este
 informe resume y referencia ese trabajo, no lo reemplaza. Para instrucciones de instalación y
-ejecución del proyecto, ver [`README.md`](README.md).
+ejecución del proyecto, ver [`README.md`](../README.md).
 
 ---
 
@@ -91,22 +92,39 @@ problema de negocio en sí:
 
 ## 4. Descripción de las fuentes de datos y herramientas colaborativas
 
-**Fuente de datos:** [`data/Spotify_Tracks_Dataset.csv`](data/Spotify_Tracks_Dataset.csv) — 114.000
+**Fuente de datos:** [`data/Spotify_Tracks_Dataset.csv`](../data/Spotify_Tracks_Dataset.csv) — 114.000
 filas × 20 columnas. Cada fila es una canción con metadatos (track_id, artists, album_name,
 track_name, track_genre), su métrica de popularidad en Spotify (popularity, 0-100), la marca
 de contenido explícito (explicit) y 13 características de audio extraídas por Spotify
 (duration_ms, danceability, energy, key, loudness, mode, speechiness,
 acousticness, instrumentalness, liveness, valence, tempo, time_signature). La
 descripción detallada de cada columna está en
-[`docs/spotify_dataset.pdf`](docs/spotify_dataset.pdf), documento de referencia de Spotify citado
+[`docs/spotify_dataset.pdf`](spotify_dataset.pdf), documento de referencia de Spotify citado
 a lo largo del EDA.
 
 Es un dataset público de uso educativo, sin datos personales de usuarios de Spotify (no contiene
 historial de escucha ni identificadores de oyentes), ver el detalle de privacidad en la
 sección 7.
 
-**Herramientas colaborativas:** el equipo trabajó principalmente de forma presencial, coordinando avances y compartiendo hallazgos por
-en persona. Además se utilizó github para control de versiones.
+**Herramientas colaborativas y de trabajo:** el equipo se coordinó de forma presencial para
+acordar avances, repartir el trabajo y discutir los hallazgos antes de incorporarlos al informe.
+
+- **Git y GitHub** — control de versiones y repositorio compartido. Es la herramienta central del
+  trabajo colaborativo del proyecto: mantiene el historial de commits del informe y de ambos
+  notebooks, permite revisar qué cambió entre versiones de un análisis, y actúa como fuente única
+  de verdad para el equipo. Se eligió sobre alternativas de carpeta compartida porque los
+  notebooks de Jupyter son archivos JSON grandes: sin control de versiones, dos personas editando
+  en paralelo se sobrescriben sin dejar rastro.
+- **Notebooks autocontenidos** — decisión de trabajo derivada de lo anterior: cada notebook
+  reconstruye su propio dataset desde el CSV crudo, sin depender de haber ejecutado el otro. Esto
+  permite que dos personas trabajen sobre distintas etapas del proyecto en paralelo y que
+  cualquiera pueda ejecutar y verificar el trabajo del otro sin coordinación previa.
+- **Jupyter Notebook** — entorno de análisis; el código, su salida y la justificación en Markdown
+  quedan juntos en el mismo archivo, que es lo que permite que el trabajo sea revisable por otra
+  persona sin explicación adicional.
+- **Documentación de Spotify** ([`spotify_dataset.pdf`](spotify_dataset.pdf)) — referencia
+  compartida de definiciones y rangos válidos de cada columna. Fija un criterio común: sin ella,
+  cada integrante decidiría por su cuenta qué valor es "inválido".
 
 ## 5. Metodología utilizada (CRISP-DM)
 
@@ -115,10 +133,10 @@ de 6 fases iterativas. Esta entrega cubre las primeras tres:
 
 1. **Comprensión del negocio** — cubierta en las secciones 1-3 de este informe: problema,
    objetivos y KPIs.
-2. **Comprensión de los datos** — cubierta por [`notebooks/analisis_exploratorio.ipynb`](notebooks/analisis_exploratorio.ipynb):
+2. **Comprensión de los datos** — cubierta por [`notebooks/analisis_exploratorio.ipynb`](../notebooks/analisis_exploratorio.ipynb):
    carga, calidad, duplicados, valores inválidos, outliers, correlaciones, distribución del
    target.
-3. **Preparación de los datos** — cubierta por [`notebooks/preprocesamiento.ipynb`](notebooks/preprocesamiento.ipynb):
+3. **Preparación de los datos** — cubierta por [`notebooks/preprocesamiento.ipynb`](../notebooks/preprocesamiento.ipynb):
    consolidación adicional, tratamiento de inválidos, ingeniería de características, pipeline de
    transformación.
 4. **Modelado** — fuera de alcance de esta entrega, se define como trabajo futuro.
@@ -127,8 +145,8 @@ de 6 fases iterativas. Esta entrega cubre las primeras tres:
 
 ## 6. Preparación y análisis exploratorio de los datos (EDA)
 
-Resumen de los hallazgos y decisiones de [`analisis_exploratorio.ipynb`](notebooks/analisis_exploratorio.ipynb)
-y [`preprocesamiento.ipynb`](notebooks/preprocesamiento.ipynb), ambos notebooks son
+Resumen de los hallazgos y decisiones de [`analisis_exploratorio.ipynb`](../notebooks/analisis_exploratorio.ipynb)
+y [`preprocesamiento.ipynb`](../notebooks/preprocesamiento.ipynb), ambos notebooks son
 autocontenidos, están documentados en español celda a celda, y fueron verificados ejecutándolos
 de punta a punta (no solo escritos y asumidos correctos).
 
@@ -280,13 +298,13 @@ pudieran sesgar el ajuste de un futuro modelo lineal.
 ## 8. Estructura del proyecto
 
 ```
-EV_1/
+Spotify-Tracks-Dataset/
 ├── README.md                          — presentación del proyecto: qué es y cómo ejecutarlo
 ├── requirements.txt                   — dependencias de Python del proyecto
 ├── data/
 │   └── Spotify_Tracks_Dataset.csv     — dataset crudo (114.000 filas)
 ├── docs/
-│   ├── spotify_dataset.pdf            — documentación de cada columna (Spotify)
+│   ├── spotify_dataset.pdf            — documentación de cada columna del dataset
 │   └── informe.md                     — este documento: informe técnico exigido por la rúbrica
 ├── notebooks/
 │   ├── analisis_exploratorio.ipynb    — Fase 2 CRISP-DM: comprensión de los datos (EDA)
@@ -294,7 +312,11 @@ EV_1/
 └── images/                            — figuras exportadas por el EDA
 ```
 
-**Para reproducir:** ver las instrucciones de instalación y ejecución en [`README.md`](README.md).
+No existe una carpeta `models/` porque el entrenamiento de modelos queda fuera del alcance de esta
+entrega (ver [Estado del proyecto](#9-estado-del-proyecto-y-próximos-pasos)); se incorporará en la
+fase 4 de CRISP-DM junto con los artefactos serializados del pipeline.
+
+**Para reproducir:** ver las instrucciones de instalación y ejecución en [`README.md`](../README.md).
 
 ## 9. Estado del proyecto y próximos pasos
 
