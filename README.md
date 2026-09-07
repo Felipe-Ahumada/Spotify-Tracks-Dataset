@@ -20,12 +20,11 @@ hallazgos del EDA, decisiones de preparación de datos y evaluación de sesgos/�
 ```
 EV_1/
 ├── README.md                          — este archivo
-├── informe.md                         — informe técnico del proyecto
 ├── data/
 │   └── Spotify_Tracks_Dataset.csv     — dataset crudo (114.000 filas)
 ├── docs/
 │   ├── spotify_dataset.pdf            — documentación de cada columna (Spotify)
-│   └── EP1_Instrucciones y Pauta...   — pauta de esta evaluación
+│   └── informe.md                     — informe técnico del proyecto
 ├── notebooks/
 │   ├── analisis_exploratorio.ipynb    — Fase 2 CRISP-DM: comprensión de los datos (EDA)
 │   └── preprocesamiento.ipynb         — Fase 3 CRISP-DM: preparación de datos
