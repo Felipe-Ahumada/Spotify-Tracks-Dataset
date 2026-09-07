@@ -225,6 +225,13 @@ El pipeline final (scikit-learn Pipeline + ColumnTransformer) combina: Winsorize
 (recorte de outliers) → SimpleImputer → StandardScaler para las 11 variables numéricas;
 SimpleImputer → OneHotEncoder para las 5 categóricas; GenreMeanEncoder → StandardScaler
 para el género; y un CorrelationFilter final (umbral 0,9) como resguardo de multicolinealidad.
+
+El recorte de Winsorizer no es uniforme: se calibró un límite propio por columna según el %
+real de outliers medido con la regla IQR (1,5× el rango intercuartílico), en vez de aplicar el
+mismo 5%/5% a las 11 columnas por igual. Por ejemplo, energy, acousticness y valence no tienen
+outliers reales (0% ambos lados) y no se recortan; instrumentalness sí concentra una cantidad
+grande (21,5%, toda hacia arriba), y se le aplica un tope de 10% en vez del % real completo,
+para no generar un pico artificial de valores idénticos en la columna.
 track_id, artists, album_name y track_name se excluyen de las features por altísima
 cardinalidad (73.261 nombres de canción y 45.880 álbumes distintos sobre 83.478 filas, casi cada
 valor aparece una sola vez). El resultado: **83.478 canciones → 66.782 de entrenamiento / 16.696
