@@ -13,7 +13,7 @@ Jupyter con el razonamiento detrás de cada decisión.
 
 Para el informe técnico completo (problema de negocio, objetivos, KPIs, metodología CRISP-DM,
 hallazgos del EDA, decisiones de preparación de datos y evaluación de sesgos/ética), ver
-**[`informe.md`](informe.md)**.
+**[`informe.md`](./docs/informe.md)**.
 
 ## Estructura del proyecto
 
