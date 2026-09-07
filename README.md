@@ -20,6 +20,7 @@ hallazgos del EDA, decisiones de preparación de datos y evaluación de sesgos/�
 ```
 EV_1/
 ├── README.md                          — este archivo
+├── requirements.txt                   — dependencias de Python del proyecto
 ├── data/
 │   └── Spotify_Tracks_Dataset.csv     — dataset crudo (114.000 filas)
 ├── docs/
@@ -28,17 +29,18 @@ EV_1/
 ├── notebooks/
 │   ├── analisis_exploratorio.ipynb    — Fase 2 CRISP-DM: comprensión de los datos (EDA)
 │   └── preprocesamiento.ipynb         — Fase 3 CRISP-DM: preparación de datos
-└── images/                            — figuras exportadas por el EDA (regeneradas al re-ejecutar)
+└── images/                            — figuras exportadas por el EDA 
 ```
 
 ## Cómo usarlo
 
-**Requisitos:** Python 3.12 y las librerías `pandas`, `numpy`, `matplotlib`, `seaborn`,
-`scikit-learn` y `jupyter` (no hay `requirements.txt`; ver las versiones mínimas exactas en la
-primera celda de cada notebook).
+**Requisitos:** Python 3.12 y las librerías listadas en [`requirements.txt`](requirements.txt)
+(`pandas`, `numpy`, `matplotlib`, `seaborn`, `scikit-learn` y `jupyter`). Para verificar la
+versión instalada de una librería puntual, ejecutar `import <lib>; print(<lib>.__version__)` como
+se indica en la primera celda de cada notebook.
 
 ```bash
-pip install pandas numpy matplotlib seaborn scikit-learn jupyter
+pip install -r requirements.txt
 ```
 
 **Ejecución:** abrir y correr cada notebook de punta a punta desde la carpeta `notebooks/`
@@ -61,5 +63,5 @@ crudo.
 ## Estado
 
 Esta entrega cubre comprensión del negocio, comprensión de los datos y preparación de datos. El
-entrenamiento de modelos predictivos queda fuera de alcance — ver la sección 9 de
+entrenamiento de modelos predictivos queda fuera de alcance, ver la sección 9 de
 [`informe.md`](informe.md) para el detalle de qué falta.
