@@ -1,0 +1,9 @@
+# Caché de joblib.Memory
+.cache_sklearn/
+
+# Checkpoints de Jupyter
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# macOS
+.DS_Store
