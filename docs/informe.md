@@ -1,6 +1,6 @@
 # Inteligencia Musical: Predicción de Popularidad de Canciones (Spotify Tracks)
 
-**Evaluación Parcial N°1 y N°2 — MLY1101 Machine Learning — Duoc UC**
+**Evaluación Parcial N°1 y N°2 · MLY1101 Machine Learning · Duoc UC**
 **Caso de Estudio C:** Inteligencia musical y predicción de popularidad de canciones (Spotify Tracks)
 **Por:** Felipe Ahumada Silva y Francisca Carrasco Lozano
 
@@ -31,8 +31,8 @@ Es una pregunta exploratoria, no una promesa de resultado, y el propio análisis
 responde de forma más matizada de lo esperado: las características de audio por sí solas
 explican muy poco de la popularidad (correlación máxima de apenas -0,13), el género aporta una
 señal bastante más fuerte pero es en parte un artefacto del muestreo con que se construyó el
-dataset (sección 6.4), y la señal individual más fuerte de todas la identidad del artista o
-álbum se descarta deliberadamente pese a ser la más predictiva, por las razones éticas
+dataset (sección 6.4), y la señal individual más fuerte de todas, la identidad del artista o
+álbum, se descarta deliberadamente pese a ser la más predictiva, por las razones éticas
 detalladas en la sección 7: usarla resolvería el problema estadístico, pero no el de negocio,
 porque reproduciría exactamente el sesgo de reputación que se quiere evitar. Que "el sonido de
 una canción por sí solo prediga poco su éxito" es en sí mismo un hallazgo relevante para el
@@ -48,8 +48,8 @@ correlaciones simples, no una revisión del hallazgo.
 1. **Comprender la calidad y estructura del dataset**: identificar y resolver problemas de
    duplicación, valores inválidos y consistencia antes de sacar cualquier conclusión sobre
    popularidad.
-2. **Explorar qué atributos se asocian con la popularidad de una canción** — de audio, de
-   género, y de contexto de publicación (release) — y cuantificar la fuerza (o debilidad) de esa
+2. **Explorar qué atributos se asocian con la popularidad de una canción**: de audio, de
+   género y de contexto de publicación (release), cuantificando la fuerza (o debilidad) de esa
    asociación, sin asumir de antemano que los atributos musicales vayan a explicarla bien.
 3. **Preparar y transformar los datos** en un pipeline reproducible (scikit-learn
    Pipeline/ColumnTransformer), sin fuga de información entre entrenamiento y prueba, dejando
@@ -62,7 +62,7 @@ correlaciones simples, no una revisión del hallazgo.
    evaluando los tres con métricas apropiadas e interpretando los resultados en términos del
    problema de negocio de la sección 1.
 
-Los objetivos 1, 2 y 4 se desarrollan en las secciones 6 y 7 (EDA y preparación de datos). El
+Los objetivos 1, 2, 3 y 4 se desarrollan en las secciones 6 y 7 (EDA y preparación de datos). El
 objetivo 5 (modelado, fases 4-5 de CRISP-DM) se desarrolla en la
 [sección 9](#9-modelado-construcción-comparación-y-evaluación-de-modelos). El despliegue
 (fase 6) sigue fuera de alcance, ver
@@ -73,7 +73,7 @@ objetivo 5 (modelado, fases 4-5 de CRISP-DM) se desarrolla en la
 Los KPIs se dividen en tres grupos: los que responden directamente la pregunta de negocio de
 la sección 1 (medibles ya desde el EDA, sin necesidad de un modelo entrenado), los que miden la
 calidad de los datos como condición necesaria para que los primeros sean confiables, y los que
-miden el desempeño del modelado (sección 9) — estos últimos sí requieren los modelos
+miden el desempeño del modelado (sección 9): estos últimos sí requieren los modelos
 entrenados y por eso se definen con su resultado directamente en esa sección, no aquí.
 
 ### KPIs de negocio
@@ -83,9 +83,9 @@ sin depender de la fama de quien la interpreta?
 
 | KPI | Meta | Resultado |
 |---|---|---|
-| Techo de señal explicable por el contenido de la canción (sin usar identidad de artista/álbum) | Cuantificar cuánto puede llegar a explicar, en el mejor caso, un modelo que solo use sonido y género | Atributos de audio solos: correlación máxima de apenas **-0,13** (instrumentalness). Género (codificado adecuadamente): **0,62**, muy superior a cualquier atributo de audio individual. Este 0,62 es la cota realista de lo que el contenido de la canción puede explicar sin recurrir a quién la interpreta — fija expectativas honestas para la futura fase de modelado, antes de invertir en entrenarlo. |
-| Features basadas en identidad de artista/álbum en el modelo final | 0 | Se midió que artista/álbum predicen popularidad mucho mejor que cualquier otro atributo (r≈0,71–0,72), pero se excluyen deliberadamente para no reforzar el sesgo de "el que ya es famoso, sigue siendo detectado como popular" (ver sección 7). |
-| % del catálogo cuya baja popularidad es un artefacto del contexto de publicación, no de la calidad de la canción | Cuantificar para no confundir "canción poco atractiva" con "dato mal catalogado" en decisiones de negocio | **54%** del pico de canciones con popularity = 0 (5.088 de 9.413) corresponde a duplicados de release — el mismo audio con otro release sin tracción — no a que la canción en sí no guste (ver sección 6.1). Sin este KPI, el negocio podría descartar por error contenido que en realidad sí tiene tracción, solo mal catalogado. |
+| Techo de señal explicable por el contenido de la canción (sin usar identidad de artista/álbum) | Cuantificar cuánto puede llegar a explicar, en el mejor caso, un modelo que solo use sonido y género | Atributos de audio solos: correlación máxima de apenas **-0,13** (instrumentalness). Género (codificado adecuadamente): **0,62**, muy superior a cualquier atributo de audio individual. Este 0,62 es la cota realista de lo que el contenido de la canción puede explicar sin recurrir a quién la interpreta: fija expectativas honestas para la futura fase de modelado, antes de invertir en entrenarlo. |
+| Features basadas en identidad de artista/álbum en el modelo final | 0 | Se midió que artista/álbum predicen popularidad mucho mejor que cualquier otro atributo (r≈0,63 artista, 0,72 álbum), pero se excluyen deliberadamente para no reforzar el sesgo de "el que ya es famoso, sigue siendo detectado como popular" (ver sección 7). |
+| % del catálogo cuya baja popularidad es un artefacto del contexto de publicación, no de la calidad de la canción | Cuantificar para no confundir "canción poco atractiva" con "dato mal catalogado" en decisiones de negocio | **54%** del pico de canciones con popularity = 0 (5.088 de 9.413) corresponde a duplicados de release (el mismo audio con otro release sin tracción), no a que la canción en sí no guste (ver sección 6.1). Sin este KPI, el negocio podría descartar por error contenido que en realidad sí tiene tracción, solo mal catalogado. |
 
 ### KPIs de calidad de datos (soporte)
 
@@ -111,7 +111,7 @@ Miden el desempeño de los modelos entrenados en [`notebooks/modelamiento.ipynb`
 
 ## 4. Descripción de las fuentes de datos y herramientas colaborativas
 
-**Fuente de datos:** [`data/Spotify_Tracks_Dataset.csv`](../data/Spotify_Tracks_Dataset.csv) — 114.000
+**Fuente de datos:** [`data/Spotify_Tracks_Dataset.csv`](../data/Spotify_Tracks_Dataset.csv): 114.000
 filas × 20 columnas. Cada fila es una canción con metadatos (track_id, artists, album_name,
 track_name, track_genre), su métrica de popularidad en Spotify (popularity, 0-100), la marca
 de contenido explícito (explicit) y 13 características de audio extraídas por Spotify
@@ -128,20 +128,20 @@ sección 7.
 **Herramientas colaborativas y de trabajo:** el equipo se coordinó de forma presencial para
 acordar avances, repartir el trabajo y discutir los hallazgos antes de incorporarlos al informe.
 
-- **Git y GitHub** — control de versiones y repositorio compartido. Es la herramienta central del
+- **Git y GitHub**: control de versiones y repositorio compartido. Es la herramienta central del
   trabajo colaborativo del proyecto: mantiene el historial de commits del informe y de ambos
   notebooks, permite revisar qué cambió entre versiones de un análisis, y actúa como fuente única
   de verdad para el equipo. Se eligió sobre alternativas de carpeta compartida porque los
   notebooks de Jupyter son archivos JSON grandes: sin control de versiones, dos personas editando
   en paralelo se sobrescriben sin dejar rastro.
-- **Notebooks autocontenidos** — decisión de trabajo derivada de lo anterior: cada notebook
+- **Notebooks autocontenidos**: decisión de trabajo derivada de lo anterior: cada notebook
   reconstruye su propio dataset desde el CSV crudo, sin depender de haber ejecutado el otro. Esto
   permite que dos personas trabajen sobre distintas etapas del proyecto en paralelo y que
   cualquiera pueda ejecutar y verificar el trabajo del otro sin coordinación previa.
-- **Jupyter Notebook** — entorno de análisis; el código, su salida y la justificación en Markdown
+- **Jupyter Notebook**: entorno de análisis; el código, su salida y la justificación en Markdown
   quedan juntos en el mismo archivo, que es lo que permite que el trabajo sea revisable por otra
   persona sin explicación adicional.
-- **Documentación de Spotify** ([`spotify_dataset.pdf`](spotify_dataset.pdf)) — referencia
+- **Documentación de Spotify** ([`spotify_dataset.pdf`](spotify_dataset.pdf)): referencia
   compartida de definiciones y rangos válidos de cada columna. Fija un criterio común: sin ella,
   cada integrante decidiría por su cuenta qué valor es "inválido".
 
@@ -150,23 +150,23 @@ acordar avances, repartir el trabajo y discutir los hallazgos antes de incorpora
 El proyecto sigue la metodología **CRISP-DM** (Cross-Industry Standard Process for Data Mining),
 de 6 fases iterativas. Este proyecto cubre las primeras cinco:
 
-1. **Comprensión del negocio** — cubierta en las secciones 1-3 de este informe: problema,
+1. **Comprensión del negocio**: cubierta en las secciones 1-3 de este informe: problema,
    objetivos y KPIs.
-2. **Comprensión de los datos** — cubierta por [`notebooks/analisis_exploratorio.ipynb`](../notebooks/analisis_exploratorio.ipynb):
+2. **Comprensión de los datos**: cubierta por [`notebooks/analisis_exploratorio.ipynb`](../notebooks/analisis_exploratorio.ipynb):
    carga, calidad, duplicados, valores inválidos, outliers, correlaciones, distribución del
    target.
-3. **Preparación de los datos** — cubierta por [`notebooks/preprocesamiento.ipynb`](../notebooks/preprocesamiento.ipynb):
+3. **Preparación de los datos**: cubierta por [`notebooks/preprocesamiento.ipynb`](../notebooks/preprocesamiento.ipynb):
    consolidación adicional, tratamiento de inválidos, ingeniería de características, pipeline de
    transformación.
-4. **Modelado** — cubierta por [`notebooks/modelamiento.ipynb`](../notebooks/modelamiento.ipynb):
+4. **Modelado**: cubierta por [`notebooks/modelamiento.ipynb`](../notebooks/modelamiento.ipynb):
    tres modelos supervisados de regresión (Regresión Lineal, Árbol de Decisión, Random Forest),
    tres modelos supervisados de clasificación como complemento (Regresión Logística, Árbol de
    Decisión, Random Forest Classifier) y una técnica no supervisada (KMeans) de segmentación por
    sonido, ver sección 9.
-5. **Evaluación** — cubierta en la sección 9: comparación de modelos con métricas de regresión
+5. **Evaluación**: cubierta en la sección 9, comparación de modelos con métricas de regresión
    (MAE, R²) y de clasificación (accuracy, F1, AUC-ROC), perfilado de los segmentos obtenidos
    por clustering e interpretación de resultados en términos del problema de negocio.
-6. **Despliegue** — fuera de alcance, se define como trabajo futuro (ver sección 10).
+6. **Despliegue**: fuera de alcance, se define como trabajo futuro (ver sección 10).
 
 ## 6. Preparación y análisis exploratorio de los datos (EDA)
 
@@ -184,7 +184,7 @@ colaboraciones) y promediando popularity (variaba en apenas 4,33% de los casos).
 **89.740 canciones únicas**. Se elimina además 1 fila con `duration_ms = 0` y metadatos nulos
 (error de carga).
 
-El EDA identifica un **segundo nivel de duplicación que la consolidación por track_id no resuelve** track_id identifica un *release* (álbum, single, recopilatorio), no la canción en
+El EDA identifica un **segundo nivel de duplicación que la consolidación por track_id no resuelve**: track_id identifica un *release* (álbum, single, recopilatorio), no la canción en
 sí. Agrupando por las 13 columnas de audio se encuentran **9.284 filas (10,35%) en 3.022 grupos**
 de audio idéntico bajo distinto track_id, reediciones o recopilatorios de la misma grabación.
 El caso más extremo, la canción *"I'm Good (Blue)"*, tiene popularity = 0 en un release y 98
@@ -238,14 +238,14 @@ cómo suena la canción.
 
 ### 6.4 Género: la señal más fuerte, con una trampa de diseño
 
-track_genre es multietiqueta (114 géneros posibles, separados por ; 82% de las canciones
+track_genre es multietiqueta (114 géneros posibles, separados por `;`: el 82% de las canciones
 tiene un solo género, promedio 1,27). Su distribución (~1.000 canciones por género) no es
 orgánica: es la huella del muestreo estratificado con que se construyó el dataset, no refleja
 popularidad real de cada género en Spotify, una limitación a tener presente si se usa como
 predictor (ver sección 7).
 
 Pese a eso, un chequeo de la popularidad promedio por género muestra la relación más fuerte
-encontrada en todo el dataset: pop promedia 47,6 de popularidad, grindcore 14,6, un rango de
+encontrada en todo el dataset: pop promedia 47,9 de popularidad, grindcore 14,6, un rango de
 más de 3x, y muy superior a cualquier variable de audio. Por eso se incorpora como predictor (ver
 6.5) en vez de descartarla.
 
@@ -266,11 +266,9 @@ Para incorporar track_genre se evaluaron tres opciones: multi-hot completo (~114
 agrupación manual en familias, o codificación por promedio de género (*mean/target encoding*). Se
 eligió la última (GenreMeanEncoder, transformador personalizado): el promedio de popularidad
 histórica del/los género(s) de la canción, calculado **solo con el conjunto de entrenamiento**
-para no filtrar información hacia el conjunto de prueba. Se verificó (comparando la versión que
-usa el pipeline contra una versión *out-of-fold*) que la fuga de información dentro del propio
-entrenamiento es despreciable (diferencia de r ≈ 0,002), dado que los 114 géneros tienen cientos
-de canciones cada uno. La consolidación por audio (6.1) mejora además esta señal: la correlación
-de GenreMeanEncoder con popularity en el conjunto de prueba sube de 0,568 a **0,618**.
+para no filtrar información hacia el conjunto de prueba. La consolidación por audio (6.1) mejora
+además esta señal: la correlación de GenreMeanEncoder con popularity en el conjunto de prueba
+sube de 0,568 a **0,618**.
 
 El pipeline final (scikit-learn Pipeline + ColumnTransformer) combina: Winsorizer
 (recorte de outliers) → SimpleImputer → StandardScaler para las 11 variables numéricas;
@@ -314,9 +312,9 @@ esta razón, independiente de qué tan bueno sea el modelo.
 
 **Sesgo de "el que ya es famoso, sigue siendo detectado como popular":** se evaluó (fuera de los
 notebooks, como parte del diseño de features) codificar artists/album_name con la misma
-técnica de promedio histórico usada para género. La señal resultante es mucho más fuerte que
-cualquier otra en el dataset (r≈0,71 artista, r≈0,72 álbum en conjunto de prueba, contra 0,62 de
-género). Se decidió **no incorporarla**, por dos razones: (1) predeciría principalmente "qué tan
+técnica de promedio histórico usada para género. El álbum resulta la señal más fuerte de todo el
+dataset (r≈0,72 en conjunto de prueba, contra 0,62 de género); el artista queda en un nivel
+similar al género (r≈0,63). Se decidió **no incorporarlas**, por dos razones: (1) predeciría principalmente "qué tan
 famoso es ya el artista", no "qué hace que una canción suene popular", que es el problema de
 negocio real (sección 1), un modelo así sería inútil para descubrir artistas nuevos por ejemplo, y (2) reforzaría un sesgo de retroalimentación
 ("rich get richer"): un modelo que aprende que un artista ya famoso seguirá siendo popular
@@ -332,18 +330,18 @@ pudieran sesgar el ajuste de un futuro modelo lineal.
 
 ```text
 Spotify-Tracks-Dataset/
-├── README.md                          — presentación del proyecto: qué es y cómo ejecutarlo
-├── requirements.txt                   — dependencias de Python del proyecto
+├── README.md                          # presentación del proyecto: qué es y cómo ejecutarlo
+├── requirements.txt                   # dependencias de Python del proyecto
 ├── data/
-│   └── Spotify_Tracks_Dataset.csv     — dataset crudo (114.000 filas)
+│   └── Spotify_Tracks_Dataset.csv     # dataset crudo (114.000 filas)
 ├── docs/
-│   ├── spotify_dataset.pdf            — documentación de cada columna del dataset
-│   └── informe.md                     — este documento: informe técnico del proyecto
+│   ├── spotify_dataset.pdf            # documentación de cada columna del dataset
+│   └── informe.md                     # este documento: informe técnico del proyecto
 ├── notebooks/
-│   ├── analisis_exploratorio.ipynb    — Fase 2 CRISP-DM: comprensión de los datos (EDA)
-│   ├── preprocesamiento.ipynb         — Fase 3 CRISP-DM: preparación de datos
-│   └── modelamiento.ipynb             — Fases 4-5 CRISP-DM: modelado y evaluación
-└── images/                            — figuras exportadas por el EDA y el modelado
+│   ├── analisis_exploratorio.ipynb    # Fase 2 CRISP-DM: comprensión de los datos (EDA)
+│   ├── preprocesamiento.ipynb         # Fase 3 CRISP-DM: preparación de datos
+│   └── modelamiento.ipynb             # Fases 4-5 CRISP-DM: modelado y evaluación
+└── images/                            # figuras exportadas por el EDA y el modelado
 ```
 
 No existe una carpeta `models/` porque los modelos de esta entrega no se serializan a disco (el
@@ -373,8 +371,8 @@ Se comparan tres modelos supervisados contra `popularity`:
 
 - **Regresión Lineal**, elegida por ser el modelo más simple e interpretable y por servir de
   referencia directa de las correlaciones lineales del EDA (sección 6.3: ninguna variable de
-  audio supera |r|=0,13): al combinar todas las variables —incluido el género, codificado como
-  `genero_popularidad_media`— ya explica el 38,7% de la varianza, muy por encima de lo que
+  audio supera |r|=0,13): al combinar todas las variables (incluido el género, codificado como
+  `genero_popularidad_media`) ya explica el 38,7% de la varianza, muy por encima de lo que
   sugería cualquier correlación individual. Su coeficiente estandarizado de mayor magnitud es,
   por lejos, el del género (11,7), seguido de `explicit` y `energy`.
 - **Árbol de Decisión**, elegido como punto intermedio entre la Regresión Lineal y el ensamble
@@ -387,8 +385,8 @@ Se comparan tres modelos supervisados contra `popularity`:
 - **Random Forest Regressor**, elegido por capturar interacciones y relaciones no lineales entre
   variables de audio y género que un modelo lineal no puede representar, y por ser robusto a los
   atípicos residuales del Winsorizer. En vez de elegir los hiperparámetros a mano, se ajustaron
-  con `RandomizedSearchCV` (8 combinaciones de un espacio de 600 posibles —`n_estimators`,
-  `max_depth`, `min_samples_leaf`, `max_features`—, validación cruzada de 3 folds): la mejor
+  con `RandomizedSearchCV` (8 combinaciones de un espacio de 600 posibles: `n_estimators`,
+  `max_depth`, `min_samples_leaf`, `max_features`; validación cruzada de 3 folds): la mejor
   combinación encontrada (`n_estimators=300, max_depth=22, min_samples_leaf=5,
   max_features=0.7`) mejora el R² en +0,010 frente a la configuración por defecto, confirmando
   que vale la pena la búsqueda en vez de usar los valores de fábrica.
@@ -406,8 +404,8 @@ Como complemento a la regresión, se entrena un segundo tipo de modelo supervisa
 mismo problema de fondo: en vez de predecir el puntaje exacto, se clasifica cada canción como
 `popularity` **alta** o **baja** respecto a la mediana del conjunto de entrenamiento (35),
 reutilizando el mismo pipeline y las mismas 29 columnas. No es una repetición de la regresión:
-responde una pregunta de negocio distinta y más directamente accionable —*"¿esta canción nueva
-suena como que va a tener mejor o peor desempeño que la mediana del catálogo?"*— con sus
+responde una pregunta de negocio distinta y más directamente accionable: *"¿esta canción nueva
+suena como que va a tener mejor o peor desempeño que la mediana del catálogo?"*, con sus
 propias métricas (accuracy, F1, AUC-ROC).
 
 | Modelo | Accuracy | F1 macro | AUC-ROC |
@@ -425,21 +423,21 @@ combinaciones de un espacio de 600 posibles, validación cruzada de 3 folds).
 
 **Por qué la accuracy (0,81) es tan superior al R² de la regresión (0,44), sin ser un modelo
 "mejor":** se verificó tomando el Random Forest de regresión de la sección 9.1 (ya entrenado,
-sin ajustar nada nuevo) y agrupando su propia predicción continua en la misma mediana —da una
+sin ajustar nada nuevo) y agrupando su propia predicción continua en la misma mediana: da una
 accuracy de 0,800, muy cerca del clasificador entrenado específicamente para esta tarea (0,813).
 La diferencia entre ambos no es una señal nueva descubierta por el clasificador, es solo que
 optimiza un poco mejor la misma frontera que ya estaba implícita en el regresor. La razón de
 fondo es que clasificar en 2 categorías balanceadas es una pregunta mucho más tolerante al
 error que acertar el valor exacto: solo hay **una frontera** que cruzar (la mediana), y al
 estar justo al medio de la distribución es la configuración más permisiva posible. No es que
-el sonido y el género "expliquen mejor" si una canción es popular que cuánto exactamente —es
+el sonido y el género "expliquen mejor" si una canción es popular que cuánto exactamente: es
 la misma señal (techo ≈0,44 de R²), vista con una vara de medir distinta.
 
 ### 9.3 Aprendizaje no supervisado: segmentación de canciones por sonido (KMeans)
 
 Se agrupan las canciones usando únicamente sus 9 variables de audio ya escaladas (`danceability`,
 `energy`, `loudness`, `speechiness`, `acousticness`, `instrumentalness`, `liveness`, `valence`,
-`tempo` — se excluyen duración, género, variables categóricas y `popularity`, para que el
+`tempo`; se excluyen duración, género, variables categóricas y `popularity`, para que el
 agrupamiento refleje solo el perfil sonoro, sin ver la variable objetivo ni usar identidad). Es
 una generalización no supervisada de la idea manual de "cuadrantes de ánimo" (`valence` ×
 `energy`) explorada en el EDA (sección 6.4-6.5).
@@ -448,7 +446,7 @@ Se evaluó k entre 2 y 8 con el método del codo (inercia) y el coeficiente de s
 inercia decrece de forma monótona sin un codo marcado, y el silhouette más alto es con k=2
 (0,239, una separación binaria poco accionable); de k=3 en adelante se aplana entre 0,16 y 0,18
 sin diferencias relevantes. Se eligió **k=4** por ofrecer una cohesión comparable a valores de k
-mayores con un número de segmentos manejable para una decisión de negocio — una decisión
+mayores con un número de segmentos manejable para una decisión de negocio: una decisión
 metodológica que prioriza interpretabilidad sobre el óptimo matemático puro (ver limitaciones en
 9.5).
 
@@ -462,7 +460,7 @@ Perfil de los 4 segmentos (promedios de audio sin escalar):
 | 3 | Intenso/instrumental (`energy` y tempo los más altos, `instrumentalness` elevado, `valence` bajo) | 18.605 | 33,90 |
 
 La diferencia de popularidad promedio entre los 4 segmentos es acotada (~5 puntos entre el
-segmento más bajo y el más alto, sobre una media global de 34,65) — coherente con el hallazgo
+segmento más bajo y el más alto, sobre una media global de 34,65), coherente con el hallazgo
 central del EDA (sección 6.3): el sonido por sí solo tiene una relación real pero débil con la
 popularidad. El segmento
 de menor popularidad (acústico, `valence` bajo) es además consistente con `es_calmado_positivo`
@@ -474,22 +472,22 @@ tracción, más allá de qué par de variables se use para definirlo.
 ### 9.4 Evaluación de resultados y recomendaciones de negocio
 
 Retomando la pregunta de negocio de la sección 1, los tres modelos (regresión, clasificación y
-clustering) confirman de forma cuantitativa y extremo a extremo lo que el EDA ya anticipaba con
+clustering) confirman, de forma cuantitativa y de extremo a extremo, lo que el EDA ya anticipaba con
 correlaciones simples: sonido y género explican una fracción real pero acotada de la
 popularidad (R²≈0,44 en regresión; ~5 puntos de rango entre segmentos de sonido), con el género
 como la señal individual más fuerte en todos los enfoques. La clasificación binaria (accuracy
-0,81) no contradice este techo —es la misma señal, vista con una pregunta más tolerante al
-error (sección 9.2)— y es, de los tres, la más directamente accionable para una decisión de
+0,81) no contradice este techo (es la misma señal, vista con una pregunta más tolerante al
+error, sección 9.2) y es, de los tres, la más directamente accionable para una decisión de
 negocio binaria ("¿invertir esfuerzo de promoción en esto o no?").
 
 **Recomendación de negocio:** usar el modelo (y los segmentos de sonido) como señal de apoyo para
-priorizar qué escuchar primero entre material nuevo de artistas sin trayectoria —el caso de uso
-real de la sección 1—, nunca como filtro automático ni sustituto del criterio humano: con
+priorizar qué escuchar primero entre material nuevo de artistas sin trayectoria (el caso de uso
+real de la sección 1), nunca como filtro automático ni sustituto del criterio humano: con
 R²≈0,44, más de la mitad de la varianza de `popularity` queda sin explicar por el contenido de
 la canción, y parte de esa varianza no observada corresponde a contexto de publicación (sección
 6.1) y a la fama del artista, excluida deliberadamente del modelo por las razones éticas de la
 sección 7. El modelo responde "qué tan prometedora suena esta canción en sí misma", no "qué tan
-exitosa será" — son preguntas distintas y el negocio debe tratarlas como tales.
+exitosa será": son preguntas distintas y el negocio debe tratarlas como tales.
 
 ### 9.5 Limitaciones del modelado
 
@@ -500,7 +498,7 @@ exitosa será" — son preguntas distintas y el negocio debe tratarlas como tale
   mejor combinación encontrada, o más iteraciones) queda como trabajo futuro (sección 10).
 - El techo de R²≈0,44 refleja el límite del contenido+género para explicar `popularity`, no
   necesariamente el límite del algoritmo: coincide con que la señal más fuerte medida (identidad
-  de artista/álbum, r≈0,72, sección 7) fue deliberadamente excluida por razones éticas — un
+  de artista/álbum, r≈0,72, sección 7) fue deliberadamente excluida por razones éticas: un
   modelo que la incluyera llegaría a un R² mucho mayor, pero respondería la pregunta de negocio
   equivocada.
 - La segmentación por sonido (k=4) no es la óptima según silhouette puro (k=2 tiene mayor
