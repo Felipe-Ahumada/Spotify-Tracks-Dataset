@@ -10,7 +10,7 @@ N°2, Caso de Estudio C: *Inteligencia musical y predicción de popularidad de c
 Analiza el [Spotify Tracks Dataset](data/Spotify_Tracks_Dataset.csv) (~114.000 canciones con
 características de audio y metadatos) para entender qué atributos musicales se asocian con la
 popularidad de una canción en Spotify, y entrena/compara modelos de Machine Learning sobre esos
-datos: dos modelos supervisados de regresión para predecir `popularity`, dos modelos
+datos: tres modelos supervisados de regresión para predecir `popularity`, tres modelos
 supervisados de clasificación (como complemento, `popularity` alta/baja respecto a la mediana)
 y una técnica no supervisada (KMeans) para segmentar canciones por su perfil de sonido. No es
 una aplicación: el
@@ -64,10 +64,11 @@ jupyter notebook
   forma independiente (no depende de haber corrido el otro notebook antes), agrega ingeniería de
   características y arma el pipeline de `scikit-learn` que deja los datos listos para modelar.
 - [`modelamiento.ipynb`](notebooks/modelamiento.ipynb) — reconstruye el dataset preparado
-  (mismo pipeline que `preprocesamiento.ipynb`), entrena y compara dos modelos supervisados de
-  regresión (Regresión Lineal, Random Forest) contra una línea base ingenua, dos modelos
-  supervisados de clasificación complementarios (Regresión Logística, Random Forest Classifier)
-  sobre `popularity` alta/baja, y aplica KMeans para segmentar canciones por perfil de sonido.
+  (mismo pipeline que `preprocesamiento.ipynb`), entrena y compara tres modelos supervisados de
+  regresión (Regresión Lineal, Árbol de Decisión, Random Forest), tres modelos supervisados de
+  clasificación complementarios (Regresión Logística, Árbol de Decisión, Random Forest
+  Classifier) sobre `popularity` alta/baja, y aplica KMeans para segmentar canciones por perfil
+  de sonido.
 
 Los tres notebooks son autocontenidos: cada uno reconstruye el dataset que necesita desde el CSV
 crudo.

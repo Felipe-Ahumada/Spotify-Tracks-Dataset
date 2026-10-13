@@ -4,9 +4,9 @@
 **Caso de Estudio C:** Inteligencia musical y predicción de popularidad de canciones (Spotify Tracks)
 **Por:** Felipe Ahumada Silva y Francisca Carrasco Lozano
 
-Este es el informe técnico del proyecto, entregable formal de ambas evaluaciones. Documenta el
+Este es el informe técnico del proyecto. Documenta el
 problema de negocio, los objetivos, los KPIs, las fuentes de datos, la metodología, el trabajo de
-comprensión y preparación de datos (EV1), y el modelado y evaluación de resultados (EV2). El
+comprensión y preparación de datos, y el modelado y evaluación de resultados. El
 desarrollo completo y ejecutable de cada paso está en los notebooks de la carpeta
 [`notebooks/`](../notebooks/); este informe resume y referencia ese trabajo, no lo reemplaza. Para
 instrucciones de instalación y ejecución del proyecto, ver [`README.md`](../README.md).
@@ -38,7 +38,7 @@ porque reproduciría exactamente el sesgo de reputación que se quiere evitar. Q
 una canción por sí solo prediga poco su éxito" es en sí mismo un hallazgo relevante para el
 negocio: matiza cualquier expectativa de que un futuro modelo basado en audio y género pueda
 reemplazar esto, y deja claro que su aporte es el de una señal adicional, acotada,
-no un reemplazo del criterio humano. La segunda entrega (EV2, sección 9) cierra esta pregunta
+no un reemplazo del criterio humano. La [sección 9](#9-modelado-construcción-comparación-y-evaluación-de-modelos) cierra esta pregunta
 con modelos entrenados extremo a extremo: el mejor modelo supervisado alcanza R²≈0,44
 combinando sonido y género, un techo consistente con lo que el EDA ya anticipaba con
 correlaciones simples, no una revisión del hallazgo.
@@ -62,9 +62,9 @@ correlaciones simples, no una revisión del hallazgo.
    evaluando los tres con métricas apropiadas e interpretando los resultados en términos del
    problema de negocio de la sección 1.
 
-Los objetivos 1, 2 y 4 están cubiertos por la primera entrega (EV1: EDA + preparación). El
-objetivo 5 (modelado, fases 4-5 de CRISP-DM) se cubre en esta segunda entrega (EV2), ver
-[sección 9](#9-modelado-construcción-comparación-y-evaluación-de-modelos-ev2). El despliegue
+Los objetivos 1, 2 y 4 se desarrollan en las secciones 6 y 7 (EDA y preparación de datos). El
+objetivo 5 (modelado, fases 4-5 de CRISP-DM) se desarrolla en la
+[sección 9](#9-modelado-construcción-comparación-y-evaluación-de-modelos). El despliegue
 (fase 6) sigue fuera de alcance, ver
 [Estado del proyecto](#10-estado-del-proyecto-y-próximos-pasos).
 
@@ -73,7 +73,7 @@ objetivo 5 (modelado, fases 4-5 de CRISP-DM) se cubre en esta segunda entrega (E
 Los KPIs se dividen en tres grupos: los que responden directamente la pregunta de negocio de
 la sección 1 (medibles ya desde el EDA, sin necesidad de un modelo entrenado), los que miden la
 calidad de los datos como condición necesaria para que los primeros sean confiables, y los que
-miden el desempeño del modelado (EV2, sección 9) — estos últimos sí requieren los modelos
+miden el desempeño del modelado (sección 9) — estos últimos sí requieren los modelos
 entrenados y por eso se definen con su resultado directamente en esa sección, no aquí.
 
 ### KPIs de negocio
@@ -98,15 +98,15 @@ problema de negocio en sí:
 | Valores inválidos identificados y tratados | 100% | 129 time_signature = 0 / 124 tempo = 0 (sobre el dataset ya consolidado) marcados como faltantes para imputación; 0 valores inválidos sin tratar en el dataset preparado. |
 | Dataset final sin nulos tras la preparación | 0 nulos | X_train_prep / X_test_prep: 0 valores nulos, verificado. |
 
-### KPIs de modelado (EV2)
+### KPIs de modelado
 
 Miden el desempeño de los modelos entrenados en [`notebooks/modelamiento.ipynb`](../notebooks/modelamiento.ipynb)
 (ver detalle y justificación en la sección 9):
 
 | KPI | Meta | Resultado |
 |---|---|---|
-| Desempeño del mejor modelo supervisado (regresión) frente a la línea base ingenua | Superar claramente la línea base (R²≈0) | Random Forest (`RandomizedSearchCV`): **R²=0,438**, MAE=9,98 (vs. baseline R²≈0, MAE=16,13, y Regresión Lineal R²=0,387, MAE=10,75). |
-| Desempeño del mejor modelo supervisado (clasificación complementaria) frente a la línea base ingenua | Superar claramente la línea base (Accuracy≈0,50) | Random Forest Classifier (`RandomizedSearchCV`): **Accuracy=0,813**, AUC-ROC=0,894 (vs. baseline Accuracy=0,501, y Regresión Logística Accuracy=0,777). |
+| Desempeño del mejor modelo supervisado (regresión) frente a los otros dos | Mejor MAE y R² de los tres | Random Forest (`RandomizedSearchCV`): **R²=0,438**, MAE=9,98 (vs. Árbol de Decisión R²=0,393, MAE=10,67, y Regresión Lineal R²=0,387, MAE=10,75). |
+| Desempeño del mejor modelo supervisado (clasificación complementaria) frente a los otros dos | Mejor Accuracy, F1 y AUC-ROC de los tres | Random Forest Classifier (`RandomizedSearchCV`): **Accuracy=0,813**, AUC-ROC=0,894 (vs. Árbol de Decisión Accuracy=0,789, AUC-ROC=0,866, y Regresión Logística Accuracy=0,777, AUC-ROC=0,849). |
 | Segmentación no supervisada de canciones por sonido con diferencias de popularidad observables | Identificar segmentos de sonido con distinta popularidad promedio | KMeans (k=4): 4 segmentos de sonido con popularidad promedio distinta, rango acotado de ~5 puntos entre el segmento más bajo (31,96) y el más alto (36,76). |
 
 ## 4. Descripción de las fuentes de datos y herramientas colaborativas
@@ -148,7 +148,7 @@ acordar avances, repartir el trabajo y discutir los hallazgos antes de incorpora
 ## 5. Metodología utilizada (CRISP-DM)
 
 El proyecto sigue la metodología **CRISP-DM** (Cross-Industry Standard Process for Data Mining),
-de 6 fases iterativas. Entre ambas entregas (EV1 y EV2) se cubren las primeras cinco:
+de 6 fases iterativas. Este proyecto cubre las primeras cinco:
 
 1. **Comprensión del negocio** — cubierta en las secciones 1-3 de este informe: problema,
    objetivos y KPIs.
@@ -158,10 +158,11 @@ de 6 fases iterativas. Entre ambas entregas (EV1 y EV2) se cubren las primeras c
 3. **Preparación de los datos** — cubierta por [`notebooks/preprocesamiento.ipynb`](../notebooks/preprocesamiento.ipynb):
    consolidación adicional, tratamiento de inválidos, ingeniería de características, pipeline de
    transformación.
-4. **Modelado** — cubierta por [`notebooks/modelamiento.ipynb`](../notebooks/modelamiento.ipynb)
-   (EV2): dos modelos supervisados de regresión (Regresión Lineal, Random Forest), dos modelos
-   supervisados de clasificación como complemento (Regresión Logística, Random Forest
-   Classifier) y una técnica no supervisada (KMeans) de segmentación por sonido, ver sección 9.
+4. **Modelado** — cubierta por [`notebooks/modelamiento.ipynb`](../notebooks/modelamiento.ipynb):
+   tres modelos supervisados de regresión (Regresión Lineal, Árbol de Decisión, Random Forest),
+   tres modelos supervisados de clasificación como complemento (Regresión Logística, Árbol de
+   Decisión, Random Forest Classifier) y una técnica no supervisada (KMeans) de segmentación por
+   sonido, ver sección 9.
 5. **Evaluación** — cubierta en la sección 9: comparación de modelos con métricas de regresión
    (MAE, R²) y de clasificación (accuracy, F1, AUC-ROC), perfilado de los segmentos obtenidos
    por clustering e interpretación de resultados en términos del problema de negocio.
@@ -198,6 +199,14 @@ no de exploración). preprocesamiento.ipynb lo resuelve colapsando cada grupo de
 a una fila, **promediando** popularity entre releases (mismo criterio ya usado para el primer
 nivel de duplicación, en vez de quedarse con el máximo, que introduciría un sesgo optimista
 sistemático). El dataset preparado final queda en **83.478 canciones únicas**.
+
+Como el modelado (sección 9.2) usa, además de la regresión, una clasificación complementaria de
+`popularity` alta/baja respecto a la mediana, el EDA verifica de entrada si esa partición está
+desbalanceada. Sobre las 89.740 canciones únicas por track_id, la mediana de popularity es
+**33,0**: 50,32% de las filas queda bajo la mediana (baja) y 49,68% sobre ella (alta), una razón
+mayoría/minoría de **1,01**. Es decir, prácticamente sin desbalance, esperable al partir una
+variable continua por su propia mediana, lo que respalda usar accuracy sin remuestreo en la
+clasificación de la sección 9.2.
 
 ### 6.2 Valores inválidos
 
@@ -321,7 +330,7 @@ pudieran sesgar el ajuste de un futuro modelo lineal.
 
 ## 8. Estructura del proyecto
 
-```
+```text
 Spotify-Tracks-Dataset/
 ├── README.md                          — presentación del proyecto: qué es y cómo ejecutarlo
 ├── requirements.txt                   — dependencias de Python del proyecto
@@ -329,11 +338,11 @@ Spotify-Tracks-Dataset/
 │   └── Spotify_Tracks_Dataset.csv     — dataset crudo (114.000 filas)
 ├── docs/
 │   ├── spotify_dataset.pdf            — documentación de cada columna del dataset
-│   └── informe.md                     — este documento: informe técnico exigido por la rúbrica
+│   └── informe.md                     — este documento: informe técnico del proyecto
 ├── notebooks/
 │   ├── analisis_exploratorio.ipynb    — Fase 2 CRISP-DM: comprensión de los datos (EDA)
 │   ├── preprocesamiento.ipynb         — Fase 3 CRISP-DM: preparación de datos
-│   └── modelamiento.ipynb             — Fases 4-5 CRISP-DM: modelado y evaluación (EV2)
+│   └── modelamiento.ipynb             — Fases 4-5 CRISP-DM: modelado y evaluación
 └── images/                            — figuras exportadas por el EDA y el modelado
 ```
 
@@ -344,7 +353,7 @@ de despliegue (fase 6, ver [Estado del proyecto](#10-estado-del-proyecto-y-próx
 
 **Para reproducir:** ver las instrucciones de instalación y ejecución en [`README.md`](../README.md).
 
-## 9. Modelado: construcción, comparación y evaluación de modelos (EV2)
+## 9. Modelado: construcción, comparación y evaluación de modelos
 
 Esta sección resume [`notebooks/modelamiento.ipynb`](../notebooks/modelamiento.ipynb) (fases 4-5
 de CRISP-DM), verificado ejecutándolo de punta a punta. Como los notebooks anteriores, es
@@ -353,12 +362,12 @@ pipeline de `preprocesamiento.ipynb` (sección 6.5) en vez de depender de haberl
 
 ### 9.1 Modelos supervisados: predicción de popularity
 
-Se comparan tres puntos de referencia contra `popularity`:
+Se comparan tres modelos supervisados contra `popularity`:
 
 | Modelo | MAE | R² |
 |---|---|---|
-| Línea base ingenua (promedio de entrenamiento) | 16,13 | ≈0 |
 | Regresión Lineal | 10,75 | 0,387 |
+| Árbol de Decisión (`RandomizedSearchCV`) | 10,67 | 0,393 |
 | Random Forest (por defecto, sin ajuste) | 10,05 | 0,428 |
 | **Random Forest (`RandomizedSearchCV`)** | **9,98** | **0,438** |
 
@@ -368,6 +377,13 @@ Se comparan tres puntos de referencia contra `popularity`:
   `genero_popularidad_media`— ya explica el 38,7% de la varianza, muy por encima de lo que
   sugería cualquier correlación individual. Su coeficiente estandarizado de mayor magnitud es,
   por lejos, el del género (11,7), seguido de `explicit` y `energy`.
+- **Árbol de Decisión**, elegido como punto intermedio entre la Regresión Lineal y el ensamble
+  de Random Forest: un único árbol captura no linealidades, pero sin el promedio de muchos
+  árboles que reduce varianza. Ajustado con `RandomizedSearchCV` sobre `max_depth` y
+  `min_samples_leaf` (mejor combinación: `max_depth=6, min_samples_leaf=50`), queda apenas por
+  encima de la Regresión Lineal (R²=0,393 vs. 0,387): un único árbol, aunque no lineal, no
+  alcanza a capturar mucha más señal que el modelo lineal. Depende casi por completo del género
+  (97% de la importancia de variables), mucho más concentrado que el Random Forest.
 - **Random Forest Regressor**, elegido por capturar interacciones y relaciones no lineales entre
   variables de audio y género que un modelo lineal no puede representar, y por ser robusto a los
   atípicos residuales del Winsorizer. En vez de elegir los hiperparámetros a mano, se ajustaron
@@ -394,16 +410,18 @@ responde una pregunta de negocio distinta y más directamente accionable —*"¿
 suena como que va a tener mejor o peor desempeño que la mediana del catálogo?"*— con sus
 propias métricas (accuracy, F1, AUC-ROC).
 
-| Modelo | Accuracy | F1 macro |
-|---|---|---|
-| Línea base ingenua (clase mayoritaria) | 0,501 | 0,334 |
-| Regresión Logística | 0,777 | 0,777 |
-| **Random Forest Classifier (`RandomizedSearchCV`)** | **0,813** | **0,813** |
+| Modelo | Accuracy | F1 macro | AUC-ROC |
+|---|---|---|---|
+| Regresión Logística | 0,777 | 0,777 | 0,849 |
+| Árbol de Decisión (`RandomizedSearchCV`) | 0,789 | 0,789 | 0,866 |
+| **Random Forest Classifier (`RandomizedSearchCV`)** | **0,813** | **0,813** | **0,894** |
 
-El Random Forest (AUC-ROC=0,894) queda bien balanceado entre ambas clases (precision/recall
-~0,81-0,82 tanto para "alta" como para "baja", sin favorecer una por sobre la otra), y se
-ajustó con el mismo criterio que el de regresión (`RandomizedSearchCV`, 8 combinaciones de
-600 posibles, validación cruzada de 3 folds).
+El Árbol de Decisión (`max_depth=10, min_samples_leaf=50`) queda entre ambos extremos, igual
+que en la regresión: mejora sobre la Regresión Logística pero sin llegar al desempeño del
+ensamble. El Random Forest queda bien balanceado entre ambas clases (precision/recall
+~0,81-0,82 tanto para "alta" como para "baja", sin favorecer una por sobre la otra), y tanto él
+como el Árbol de Decisión se ajustaron con el mismo criterio (`RandomizedSearchCV`, 8
+combinaciones de un espacio de 600 posibles, validación cruzada de 3 folds).
 
 **Por qué la accuracy (0,81) es tan superior al R² de la regresión (0,44), sin ser un modelo
 "mejor":** se verificó tomando el Random Forest de regresión de la sección 9.1 (ya entrenado,
@@ -475,11 +493,11 @@ exitosa será" — son preguntas distintas y el negocio debe tratarlas como tale
 
 ### 9.5 Limitaciones del modelado
 
-- La búsqueda de hiperparámetros (`RandomizedSearchCV`) se acotó a 8 combinaciones de un espacio
-  de 600 posibles, tanto para el Random Forest de regresión (sección 9.1) como para el de
+- La búsqueda de hiperparámetros (`RandomizedSearchCV`) se acotó a 8 combinaciones, tanto para
+  los Árboles de Decisión como para los Random Forest, de regresión (sección 9.1) y de
   clasificación (sección 9.2); es suficiente para mejorar sobre la configuración por defecto en
-  ambos casos, pero una búsqueda más amplia (`GridSearchCV` sobre el entorno de la mejor
-  combinación encontrada, o más iteraciones) queda como trabajo futuro (sección 10).
+  el caso del Random Forest, pero una búsqueda más amplia (`GridSearchCV` sobre el entorno de la
+  mejor combinación encontrada, o más iteraciones) queda como trabajo futuro (sección 10).
 - El techo de R²≈0,44 refleja el límite del contenido+género para explicar `popularity`, no
   necesariamente el límite del algoritmo: coincide con que la señal más fuerte medida (identidad
   de artista/álbum, r≈0,72, sección 7) fue deliberadamente excluida por razones éticas — un
@@ -491,7 +509,7 @@ exitosa será" — son preguntas distintas y el negocio debe tratarlas como tale
 
 ## 10. Estado del proyecto y próximos pasos
 
-Esta entrega (EV1 + EV2) cubre comprensión del negocio, comprensión de los datos, preparación de
+Este proyecto cubre comprensión del negocio, comprensión de los datos, preparación de
 datos, modelado y evaluación (fases 1-5 de CRISP-DM). Queda explícitamente fuera de alcance, como
 trabajo futuro:
 
