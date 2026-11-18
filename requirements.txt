@@ -3,4 +3,6 @@ numpy>=2.0.2
 matplotlib>=3.9.4
 scikit-learn>=1.6.1
 joblib>=1.5.3
+kneed>=0.8.6
+lightgbm>=4.6.0
 jupyter>=1.0.0

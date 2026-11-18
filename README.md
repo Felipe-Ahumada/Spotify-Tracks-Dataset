@@ -1,7 +1,7 @@
 # Spotify Tracks — Predicción de Popularidad
 
-Proyecto de la asignatura **MLY1101 Machine Learning (Duoc UC)** — Evaluaciones Parciales N°1 y
-N°2, Caso de Estudio C: *Inteligencia musical y predicción de popularidad de canciones*.
+Proyecto de la asignatura **MLY1101 Machine Learning (Duoc UC)** — Evaluaciones Parciales N°1,
+N°2 y N°3, Caso de Estudio C: *Inteligencia musical y predicción de popularidad de canciones*.
 
 **Por:** Felipe Ahumada Silva y Francisca Carrasco Lozano
 
@@ -10,10 +10,11 @@ N°2, Caso de Estudio C: *Inteligencia musical y predicción de popularidad de c
 Analiza el [Spotify Tracks Dataset](data/Spotify_Tracks_Dataset.csv) (~114.000 canciones con
 características de audio y metadatos) para entender qué atributos musicales se asocian con la
 popularidad de una canción en Spotify, y entrena/compara modelos de Machine Learning sobre esos
-datos: tres modelos supervisados de regresión para predecir `popularity`, tres modelos
-supervisados de clasificación (como complemento, `popularity` alta/baja respecto a la mediana)
-y una técnica no supervisada (KMeans) para segmentar canciones por su perfil de sonido. No es
-una aplicación: el
+datos: seis modelos supervisados de regresión para predecir `popularity` (Regresión Lineal,
+Ridge, Lasso, Árbol de Decisión, Random Forest y LightGBM), cuatro modelos supervisados de
+clasificación (como complemento, `popularity` alta/baja respecto a la mediana, con Regresión
+Logística, Árbol de Decisión, Random Forest Classifier y LightGBM Classifier) y una técnica no
+supervisada (KMeans) para segmentar canciones por su perfil de sonido. No es una aplicación: el
 resultado es el análisis en sí, expresado en notebooks de Jupyter con el razonamiento detrás de
 cada decisión.
 
@@ -42,7 +43,7 @@ Spotify-Tracks-Dataset/
 ## Cómo usarlo
 
 **Requisitos:** Python 3.12 y las librerías listadas en [`requirements.txt`](requirements.txt)
-(`pandas`, `numpy`, `matplotlib`, `scikit-learn`, `joblib` y `jupyter`). Para verificar la
+(`pandas`, `numpy`, `matplotlib`, `scikit-learn`, `joblib`, `kneed`, `lightgbm` y `jupyter`). Para verificar la
 versión instalada de una librería puntual, ejecutar `import <lib>; print(<lib>.__version__)` como
 se indica en la primera celda de cada notebook.
 
@@ -64,11 +65,11 @@ jupyter notebook
   forma independiente (no depende de haber corrido el otro notebook antes), agrega ingeniería de
   características y arma el pipeline de `scikit-learn` que deja los datos listos para modelar.
 - [`modelamiento.ipynb`](notebooks/modelamiento.ipynb) — reconstruye el dataset preparado
-  (mismo pipeline que `preprocesamiento.ipynb`), entrena y compara tres modelos supervisados de
-  regresión (Regresión Lineal, Árbol de Decisión, Random Forest), tres modelos supervisados de
-  clasificación complementarios (Regresión Logística, Árbol de Decisión, Random Forest
-  Classifier) sobre `popularity` alta/baja, y aplica KMeans para segmentar canciones por perfil
-  de sonido.
+  (mismo pipeline que `preprocesamiento.ipynb`), entrena y compara seis modelos supervisados de
+  regresión (Regresión Lineal, Ridge, Lasso, Árbol de Decisión, Random Forest y LightGBM), cuatro
+  modelos supervisados de clasificación complementarios (Regresión Logística, Árbol de Decisión,
+  Random Forest Classifier y LightGBM Classifier) sobre `popularity` alta/baja, y aplica KMeans
+  para segmentar canciones por perfil de sonido.
 
 Los tres notebooks son autocontenidos: cada uno reconstruye el dataset que necesita desde el CSV
 crudo.
